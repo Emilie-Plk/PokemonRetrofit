@@ -13,13 +13,16 @@ public class PokemonViewState {
     @NonNull
     private final String imageUrl;
 
+    @NonNull
+    private final String type;
 
     private final boolean isResponseReceived;
 
 
-    public PokemonViewState(@NonNull String name, @NonNull String imageUrl, boolean isResponseReceived) {
+    public PokemonViewState(@NonNull String name, @NonNull String imageUrl, @NonNull String type, boolean isResponseReceived) {
         this.name = name;
         this.imageUrl = imageUrl;
+        this.type = type;
         this.isResponseReceived = isResponseReceived;
     }
 
@@ -33,6 +36,11 @@ public class PokemonViewState {
         return imageUrl;
     }
 
+    @NonNull
+    public String getType() {
+        return type;
+    }
+
 
     public boolean isResponseReceived() {
         return isResponseReceived;
@@ -43,20 +51,20 @@ public class PokemonViewState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PokemonViewState that = (PokemonViewState) o;
-        return isResponseReceived == that.isResponseReceived && name.equals(that.name) && imageUrl.equals(that.imageUrl);
+        return isResponseReceived == that.isResponseReceived && name.equals(that.name) && imageUrl.equals(that.imageUrl) && type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, imageUrl, isResponseReceived);
+        return Objects.hash(name, imageUrl, type, isResponseReceived);
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "PokemonViewState{" +
             "name='" + name + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
+            ", type='" + type + '\'' +
             ", isResponseReceived=" + isResponseReceived +
             '}';
     }

@@ -11,4 +11,6 @@ public interface PokemonAPI {
     @GET("pokemon/{id}/")
     Call<PokemonResponse> getPokemonById(@Path("id") int id);
 
+    // TODO: what if I want to have several GET req (ie. pokemon/{id}/blabli/{blou} ?
+
 }

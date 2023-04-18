@@ -4,29 +4,18 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Ability {
+public class Type {
 
     @SerializedName("name")
     private String name;
-
-    @SerializedName("url")
-    private String url;
 
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
     @NonNull
     @Override
     public String toString() {
-        return
-            "Ability{" +
-                "name = '" + name + '\'' +
-                ",url = '" + url + '\'' +
-                "}";
+        return "Type{}";
     }
 }

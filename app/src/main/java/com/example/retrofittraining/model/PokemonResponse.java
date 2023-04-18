@@ -1,32 +1,44 @@
 package com.example.retrofittraining.model;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
-public class PokemonResponse{
+import java.util.List;
+import java.util.Objects;
 
-	@SerializedName("sprites")
-	private Sprites sprites;
+public class PokemonResponse {
 
-	@SerializedName("name")
-	private String name;
+    @SerializedName("sprites")
+    private Sprites sprites;
 
-	public Sprites getSprites(){
-		return sprites;
-	}
+    @SerializedName("name")
+    private String name;
 
-	public String getName(){
-		return name;
-	}
+    @SerializedName("types")
+    private List<TypesItem> types;
 
-	@NonNull
-	@Override
- 	public String toString(){
-		return 
-			"PokemonResponse{" +
-			",sprites = '" + sprites + '\'' +
-			",name = '" + name + '\'' +
-			"}";
-		}
+    public Sprites getSprites() {
+        return sprites;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<TypesItem> getTypes() {
+        return types;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PokemonResponse response = (PokemonResponse) o;
+        return Objects.equals(sprites, response.sprites) && Objects.equals(name, response.name) && Objects.equals(types, response.types);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sprites, name, types);
+    }
 }

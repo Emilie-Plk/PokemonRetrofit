@@ -7,21 +7,30 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.retrofittraining.model.PokemonInfo;
 import com.example.retrofittraining.model.PokemonResponse;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class PokemonRepository {
 
     private final PokemonAPI pokemonAPI;
 
+    @Inject
     public PokemonRepository(PokemonAPI pokemonAPI) {
         this.pokemonAPI = pokemonAPI;
     }
 
     public LiveData<PokemonInfo> getRandomPokemonName(int randomInt) {
         MutableLiveData<PokemonInfo> pokemonInfoMutableLiveData = new MutableLiveData<>();
-        pokemonInfoMutableLiveData.setValue(new PokemonInfo("", "", false));
+
+        pokemonInfoMutableLiveData.setValue(new PokemonInfo(
+            "", "", "", false)
+        );
+
         pokemonAPI.getPokemonById(randomInt).enqueue(
             new Callback<PokemonResponse>() {
                 @Override
@@ -33,7 +42,13 @@ public class PokemonRepository {
                         PokemonResponse pokemonResponse = response.body();
                         String name = pokemonResponse.getName();
                         String imageUrl = pokemonResponse.getSprites().getFrontDefault();
-                        pokemonInfoMutableLiveData.setValue(new PokemonInfo(name, imageUrl, true));
+
+                        String type = pokemonResponse.getTypes().get(0).getType().getName();
+
+                        pokemonInfoMutableLiveData.setValue(
+                            new PokemonInfo(
+                                name, imageUrl, type, true)
+                        );
                     }
                 }
 
