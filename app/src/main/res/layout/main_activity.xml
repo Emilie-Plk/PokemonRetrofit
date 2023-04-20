@@ -45,25 +45,25 @@
 
     <ImageView
         android:id="@+id/pokemonImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         tools:src="@drawable/ic_launcher_background"
         android:contentDescription="@string/pokemon_img_descr"
         app:layout_constraintEnd_toEndOf="@id/pokemonName"
         app:layout_constraintStart_toStartOf="@id/pokemonName"
         app:layout_constraintTop_toBottomOf="@id/pokemonName"
         app:layout_constraintBottom_toTopOf="@id/pokemonType"
-
         />
 
     <Button
         android:id="@+id/randomPokemonBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pokemon_btn_random"
         android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonType"
+        android:text="@string/pokemon_btn_random"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/pokemonType"
-        app:layout_constraintStart_toStartOf="@+id/pokemonType"/>
+        app:layout_constraintStart_toStartOf="@+id/pokemonType"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonType" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

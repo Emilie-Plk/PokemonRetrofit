@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Glide.with(this)
                     .load(pokemonViewState.getImageUrl())
-                    .override(500, 500)
                     .centerCrop()
                     .into(binding.pokemonImage);
 

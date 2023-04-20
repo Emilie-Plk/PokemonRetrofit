@@ -1,5 +1,9 @@
 package com.example.retrofittraining.DI;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+
 import com.example.retrofittraining.data.PokemonAPI;
 
 import java.util.concurrent.TimeUnit;
@@ -21,7 +25,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit() {
+    public Retrofit provideRetrofit(/*@NonNull Application application*/) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
@@ -29,6 +33,7 @@ public class AppModule {
             .addInterceptor(interceptor)
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
+            // .cache(new Cache(application.getCacheDir(), 8 * 1024 * 1024)   Retrofit gère le cache pour nous
             .build();
 
         return new Retrofit.Builder()

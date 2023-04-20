@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.example.retrofittraining.data.PokemonInfoWrapper;
 import com.example.retrofittraining.data.PokemonRepository;
+import com.example.retrofittraining.model.PokemonInfo;
 
 import java.util.Random;
 
@@ -20,33 +22,44 @@ public class MainViewModel extends ViewModel {
     private final PokemonRepository pokemonRepository;
 
     @NonNull
-    private final MutableLiveData<Integer> randomIntegerMutableLiveData;
-
-    int randomNumber = new Random().nextInt(898) + 1;
-
-    @NonNull
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<Integer> randomIntegerMutableLiveData = new MutableLiveData<>(new Random().nextInt(898) + 1);
 
 
     @Inject
     public MainViewModel(@NonNull PokemonRepository pokemonRepository) {
         this.pokemonRepository = pokemonRepository;
-
-        randomIntegerMutableLiveData = new MutableLiveData<>(randomNumber);
     }
 
     public LiveData<PokemonViewState> getPokemonNameViewState() {
-        isLoading.setValue(true);
         return Transformations.switchMap(randomIntegerMutableLiveData, randomInt -> {
-                isLoading.setValue(false);
                 return Transformations.map(
-                    pokemonRepository.getRandomPokemonName(randomInt), pokemon ->
-                        new PokemonViewState(
-                            pokemon.getName(),
-                            pokemon.getImageUrl(),
-                            pokemon.getType(),
-                            pokemon.isResponseReceived()
-                        )
+                    pokemonRepository.getRandomPokemonName(randomInt), pokemonInfoWrapper -> {
+                        if (pokemonInfoWrapper instanceof PokemonInfoWrapper.Loading) {
+                            // PAS OUF EN JAVA, KOTLIN CA SERA PLUS SIMPLE
+                            return new PokemonViewState(
+                                "",
+                                "",
+                                "",
+                                false
+                            );
+                        } else if (pokemonInfoWrapper instanceof PokemonInfoWrapper.Success) {
+                            PokemonInfo pokemonInfo = ((PokemonInfoWrapper.Success) pokemonInfoWrapper).getPokemonInfo();
+                            return new PokemonViewState(
+                                pokemonInfo.getName(),
+                                pokemonInfo.getImageUrl(),
+                                pokemonInfo.getType(),
+                                true
+                            );
+                        } else {
+                            Throwable throwable = ((PokemonInfoWrapper.Error) pokemonInfoWrapper).getThrowable();
+                        }
+                        return new PokemonViewState(
+                            "error",
+                            "",
+                            "",
+                            true
+                        );
+                    }
                 );
             }
         );
